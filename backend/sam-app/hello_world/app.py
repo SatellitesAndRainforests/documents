@@ -13,14 +13,19 @@ def lambda_handler(event, context):
         response = dynamodb.list_tables()
         return {
             "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
             "body": json.dumps({
                 "tables": response.get("TableNames", [])
             })
         }
     except Exception as e:
-        # Handle any connection errors
         return {
             "statusCode": 500,
+            "headers": {
+                "Content-Type": "application/json"
+            },
             "body": json.dumps({"error": str(e)})
         }
 
