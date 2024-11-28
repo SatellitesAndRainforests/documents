@@ -1,30 +1,53 @@
-# Ignore Python virtual environment
-venv/
-__pycache__/
-
-# SAM build artifacts
-.aws-sam/
-
-# Byte-compiled / optimized / DLL files
-*.pyc
-*.pyo
-*.pyd
-
-# Distribution / packaging
-*.egg-info/
-build/
-dist/
-
-# IDE configurations
-.vscode/
-.idea/
-
-# Logs and temporary files
+# General
 *.log
 *.tmp
 *.swp
-
-# System files
 .DS_Store
 Thumbs.db
+notes.txt
+*.bak
+*.orig
+*.gz
+*.zip
+
+# Python (SAM Backend)
+backend/sam-app/venv/
+backend/sam-app/__pycache__/
+backend/sam-app/*.pyc
+backend/sam-app/*.pyo
+backend/sam-app/*.pyd
+backend/sam-app/*.egg-info/
+backend/sam-app/.aws-sam/
+backend/sam-app/build/
+backend/sam-app/dist/
+backend/sam-app/.mypy_cache/
+backend/sam-app/.pytest_cache/
+backend/sam-app/.coverage
+backend/sam-app/htmlcov/
+backend/sam-app/.tox/
+
+# Node.js (React Frontend)
+frontend/node_modules/
+frontend/.env
+frontend/build/
+frontend/.cache/
+frontend/.parcel-cache/
+frontend/coverage/
+frontend/yarn.lock
+frontend/npm-debug.log*
+frontend/.eslintcache
+frontend/out/
+
+# AWS SAM
+*.aws-sam/
+.aws/
+
+# Logs and IDE Configurations
+*.log
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
 
