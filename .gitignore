@@ -1,0 +1,30 @@
+# Ignore Python virtual environment
+venv/
+__pycache__/
+
+# SAM build artifacts
+.aws-sam/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+*.egg-info/
+build/
+dist/
+
+# IDE configurations
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
