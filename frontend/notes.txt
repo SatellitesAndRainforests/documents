@@ -1,0 +1,9 @@
+
+npm i --legacy-peer-deps
+
+npm start
+
+npx check --noEmit ?? 
+npm test
+
+
