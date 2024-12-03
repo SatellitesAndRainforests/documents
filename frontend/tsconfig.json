@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2016",                                  /* Target modern JavaScript features. */
+    "module": "commonjs",                                /* Module format for Node.js compatibility. */
+    "jsx": "react",                                      /* Enable JSX syntax for React. */
+    "allowJs": true,                                     /* Allow JavaScript files alongside TypeScript. */
+    "resolveJsonModule": true,                           /* Allow importing JSON files. */
+    "esModuleInterop": true,                             /* Enable compatibility with CommonJS modules. */
+    "forceConsistentCasingInFileNames": true,            /* Enforce case-sensitive file imports. */
+    "strict": true,                                      /* Enable all strict type-checking options. */
+    "skipLibCheck": true                                 /* Skip type checking for dependencies. */
+  },
+  "include": ["src/**/*"],                               /* Include all files in the src directory. */
+  "exclude": ["node_modules"]                            /* Exclude node_modules to avoid conflicts. */
+}
+
