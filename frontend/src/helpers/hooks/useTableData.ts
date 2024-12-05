@@ -19,7 +19,7 @@ const useTableData = () => {
       } catch (err) {
 
         console.log('failed ot fetch tables. please try again later');
-        setError('failed ot fetch tables. please try again later');
+        setError(`failed ot fetch tables. please try again later: ${err.Message || 'unknown error' }`);
 
       }
 
