@@ -47,8 +47,8 @@ const PdfJs: React.FC<Props> = ({ fileUrl }) => {
     const goToNextPage = () => setPageNumber((prev) => (numPages ? Math.min(prev + 1, numPages) : prev));
 
     return (
-        <div style={{ textAlign: 'center' }}>
-            <div>
+        <div id="pdfJs" >
+            <div id="pdfJsButtons">
                 <button onClick={goToPreviousPage} disabled={pageNumber === 1}>
                     Previous
                 </button>
@@ -59,7 +59,7 @@ const PdfJs: React.FC<Props> = ({ fileUrl }) => {
                     Next
                 </button>
             </div>
-            <canvas ref={canvasRef} style={{ border: '1px solid black', marginTop: '10px' }}></canvas>
+            <canvas ref={canvasRef} ></canvas>
         </div>
     );
 };
