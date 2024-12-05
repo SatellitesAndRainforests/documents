@@ -10,7 +10,7 @@ type Props = {
     fileUrl: string;
 };
 
-const PdfViewer: React.FC<Props> = ({ fileUrl }) => {
+const ReactPdf: React.FC<Props> = ({ fileUrl }) => {
     const [numPages, setNumPages] = useState<number | null>(null);
     const [pageNumber, setPageNumber] = useState<number>(1);
 
@@ -22,8 +22,8 @@ const PdfViewer: React.FC<Props> = ({ fileUrl }) => {
     const goToNextPage = () => setPageNumber((prevPage) => (numPages ? Math.min(prevPage + 1, numPages) : prevPage));
 
     return (
-        <div>
-            <div>
+        <div id="reactPdf">
+            <div id="reactPdfButtons">
                 <button onClick={goToPreviousPage} disabled={pageNumber === 1}>
                     Previous
                 </button>
@@ -41,5 +41,5 @@ const PdfViewer: React.FC<Props> = ({ fileUrl }) => {
     );
 };
 
-export default PdfViewer;
+export default ReactPdf;
 

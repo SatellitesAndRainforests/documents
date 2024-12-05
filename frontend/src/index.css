@@ -11,3 +11,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+#pdfPage {
+  
+  margin: 100px;
+  text-align: center;
+
+}
+
+#reactPdf, #reactPdfViewer {
+
+  border: solid 1px;
+  border-radius: 8px;
+  margin: 10px;
+
+  width: 100%;
+
+}
+
+#reactPdfViewer { 
+
+  height: 1200px;
+
+}
+
+
+#reactPdfButtons { 
+
+  padding: 30px;
+
+}
+
+#reactPdfHeading, #reactPdfViewerHeading {
+
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+}
+
+
+
+
+
+
+
+

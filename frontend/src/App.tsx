@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={ <TablePage /> } />
-        <Route path="/pdf-viewer" element={ <PdfPage /> } />
+        <Route path="/pdf-viewers" element={ <PdfPage /> } />
       </Routes>
     </Router>
   )
