@@ -15,7 +15,7 @@ const ReactPdfViewer: React.FC<Props> = ( { fileUrl } ) => {
 
   return (
     <div id="reactPdfViewer" >
-    <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
+      <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
     </div>
   );
 
