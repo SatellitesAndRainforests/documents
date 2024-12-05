@@ -1,0 +1,58 @@
+replacing react-pdf with ...
+
+dbe43c1   commit
+PRMP-580  branch
+
+ - why react-pdf was chosen initially instead of pdf.js ?
+
+ - pdf.js is it's own application and isn't designed for integration in a react app
+
+- top 3 choices
+react-pdf - exsisting extend 
+pdf.js - react implementation
+react-pdf-viwer - license quickest simpliest ?
+
+
+react-pdf
+built on top of pdf.js
+basic functionilty to render pdf documents ina  react applicaiton
+limited built in ui controls / features.
+
+ - - pdf.js - - - - - - - -
+
+ + full control / cusomization / 
+   " can build a UI that exactly matches our requirments "
+
+ + significant time to build and maintain custom ui components / complexity.
+    we might go from building the ndr to building a pdf viewer
+
+ ! custom implementation meets accessibility WCAG ~~ NHS / GDS ?
+
+
+ + low level ?
+ ++ to develop:
+    + zoom in out
+    + rotating
+    + page navigation + page #'s
+    + search functionility + search algorithms + highlighting'/home/witch/aiIdentification' 
+
+
+ - - react-pdf-viewer
+
+ + provides all esential requirments:
+   zoom, rotate, page, search
+
+ + accessibility compliant WCAG 2.1 ~~ NHS / GDS
+
+ + customizable UI + tool bar 
+
+ + future: supports extending + custom plugins 
+   eg. for future advanced medical term search
+
+
+ = has all the features and can be customized / added to
+
+
+
+ - - browser pdf viewer ? - - - - - - - 
+
