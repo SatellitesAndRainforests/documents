@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactPdf from '../components/ReactPdf';
 import ReactPdfViewer from '../components/ReactPdfViewer';
 import PdfJs from '../components/PdfJs';
+import PdfJsApp from '../components/PdfJsApp';
 
 const PdfPage = () => { 
 
@@ -20,6 +21,10 @@ const PdfPage = () => {
             <h1 id="reactPdfViewerHeading"> react-pdf-viewer </h1>
             {/* <ReactPdfViewer fileUrl="./lgr.pdf" /> */}
             {/**/} <ReactPdfViewer fileUrl="./test.pdf" /> {/**/}
+
+            <h1 id="pdfJsAppHeading"> pdf.js App </h1>
+            {/* <PdfJsApp fileUrl="./lgr.pdf" /> */}
+            {/**/} <PdfJsApp fileUrl="./test.pdf" /> {/**/}
  
           </div>
 
