@@ -3,6 +3,9 @@ replacing react-pdf with ...
 dbe43c1   commit
 PRMP-580  branch
 
+embedded locally
+host on cdn
+
  - why react-pdf was chosen initially instead of pdf.js ?
 
  - pdf.js is it's own application and isn't designed for integration in a react app
