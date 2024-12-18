@@ -1,0 +1,177 @@
+
+
+PRMP-1255: Engineering investigation into possible options and approach for the enhanced view functionality
+Code Review
+ PRMP-1255-research
+
+A complete Firefox mozilla/pdf.js , release/ or src/ version can be compiled and copied in to the react app's public/ directory and an <iframe> used to add the complete Firefox pdf.js viewer in to the web page
+
+
+
+
+
+  <iframe
+	src={`/pdfjs/srcVersion/web/viewer.html?file=${encodeURIComponent(fileUrl)}`}
+    style={{ ... }} 
+  />
+ 
+
+Open Screenshot from 2024-12-10 10-48-54.png
+Screenshot from 2024-12-10 10-48-54.png
+ 
+This approach to add a complete pdf viewer can be used to add other complete pdf viewers in a similar way including top non free viewers { Adobe, react-pdf-viewer, ... } that typically offer the most modern / enhanced view functionality.
+
+
+Currently the web page opens the .pdf in the browser's default pdf viewer.
+
+If opened in Firefox , the default browser is the release/ version of mozilla/pdf.js 
+
+The Firefox mozilla/pdf.js is currently the most complete top free pdf viewer we can use ?
+
+
+
+options that enable a customised toolbar for the enhanced view
+
+
+compiling and copying the src/ version has the advantage that it can be changed / programmed before it is compiled so it can be adapted or added to for { future additional search, .css style updates, toolbar buttons removed / re positioned ? }
+
+
+using the latest release/ version has the advantage that mozilla/pdf.js is the most modern complete free .pdf viewer. The latest release has the newest support and features  corresponding to the newest features of commercial pdf viewers { Adobe , …  }
+ 
+*both the src/ and realease/ versions include: 
+{ zoom, developed for accessibility, search, page #'s, rotate, print / download }
+
+*changes made to the src/ version can also be submitted to Firefox mozilla/pdf.js to be included in their newest release.
+
+
+other paid top pdf viewers , that come with licenses 
+
+
+
+ Index / technical investigation :
+
+A complete mozilla/pdf.js integration in to a React library hasn't been found  
+
+ 
+
+pdfjs-dist
+
+requires integrating pdf.js into React , from a low level starting point , developing each feature .
+*page navigation developed for demonstrative purposes
+
+
+Open Screenshot from 2024-12-10 10-35-47.png
+Screenshot from 2024-12-10 10-35-47.png
+
+
+ react-pdf
+
+
+is the most complete being developed integration of pdf.js into react by Wojciech Maj
+it's current progress necessitates developing undeveloped features ( which is most of them ? )
+the starting point is quite close to the starting point of pdfjs-dist
+*page navigation developed for demonstrative purposes
+
+
+Open Screenshot from 2024-12-10 10-38-35.png
+Screenshot from 2024-12-10 10-38-35.png
+ 
+react-pdf-viewer
+
+
+is a complete integration of pdf.js into React. it is a paid product, although not that expensive
+it adds a license to the project
+
+it includes some features mozilla/pdf.js does not -dark/ light mode,
+I expect they are planed features in upcoming pdf.js releases / we could develop these ?
+
+
+Open Screenshot from 2024-12-10 10-41-52.png
+Screenshot from 2024-12-10 10-41-52.png
+
+ pdf.js src/ in an <iframe>
+
+
+
+is the complete Firefox mozilla/pdf.js viewer
+*it includes some features some paid products do not include , enhanced search.
+*there may be a way to customise the toolbar without programming the source code ?
+with a configuration file ? ← to look into
+
+git clone src/
+or release/
+
+compile … yarn build generic ? … copy 
+build/ and web/
+
+
+
+public/pdfjs/
+└── srcVersion
+    ├── build
+    ├── LICENSE
+    └── web
+
+features can be hidden simply
+
+Open Screenshot from 2024-12-12 16-53-32.png
+Screenshot from 2024-12-12 16-53-32.png
+with out search , Automatic Zoom , and high light on the left 
+by modifying the viewer . css , there may be better ways to hide features
+
+
+
+
+
+#scaleSelectContainer {
+  display: none;
+}
+ 
+
+Open Screenshot from 2024-12-10 10-46-00.png
+Screenshot from 2024-12-10 10-46-00.png
+ 
+
+pdf.js src/ alternative non <iframe> way
+
+it is more complex and couldn’t be implement quickly / crashed.
+it is included as a nice example of all the features that would need to be developed for pdfjs-dist / react-pdf
+
+
+Open Screenshot from 2024-12-10 10-46-28.png
+Screenshot from 2024-12-10 10-46-28.png
+ 
+
+Example of opening the application in Firefox and in Chrome 
+
+
+currently opening the react app in a different browser uses that browsers default pdf viewer in Firefox it is the complete release/ version of mozilla/pdf.js
+*adding the complete pdf.js in to the app makes the pdf viewer consistent in each browser and provides the modern most up to date top free complete pdf viewer available / the enhanced view functionality 
+
+
+
+Open image-20241212-104944.png
+image-20241212-104944.png
+fire fox  ( left ) chrome ( right )
+ 
+ 
+
+
+to look in to
+
+
+
+modifying the src/ version of mozilla/pdf.js without having to program the source code with a configuration file ?
+
+ 
+
+other not suitable options looked in to
+
+Foxit
+pdfTron
+many other free versions  
+
+
+
+
+
