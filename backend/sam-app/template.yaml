@@ -16,7 +16,7 @@ Resources:
     Properties:
       CodeUri: hello_world/  # Directory containing your Lambda function code
       Handler: app.lambda_handler  # Function entry point
-      Runtime: python3.9  # Runtime environment
+      Runtime: python3.11  # Runtime environment
       Architectures:
         - x86_64  # Architecture
       Events:
