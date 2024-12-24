@@ -7,7 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["jest", "@testing-library/jest-dom", "node"],
     "lib": ["DOM", "DOM.Iterable", "ES2015"]
   },
   "include": ["src/**/*"]
