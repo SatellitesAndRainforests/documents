@@ -1,1 +1,4 @@
-cat $(find . -type f)
+
+# print every file
+find /path/ -type f -exec cat {} +
+
