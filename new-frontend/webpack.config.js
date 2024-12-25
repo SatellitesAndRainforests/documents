@@ -29,7 +29,11 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: './dist',
+    static: [
+      path.resolve(__dirname, 'dist'), 
+      path.resolve(__dirname, 'public'), 
+    ],
+    historyApiFallback: true,
   },
 };
 
