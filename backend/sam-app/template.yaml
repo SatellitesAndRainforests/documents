@@ -14,8 +14,8 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function  # Defines a Lambda function
     Properties:
-      CodeUri: handlers/  # Directory containing your Lambda function code
-      Handler: listAllTables.lambda_handler  # Function entry point
+      CodeUri: ./  # Directory containing your Lambda function code
+      Handler: handlers.listAllTables.lambda_handler  # Function entry point
       Runtime: python3.11  # Runtime environment
       Architectures:
         - x86_64  # Architecture

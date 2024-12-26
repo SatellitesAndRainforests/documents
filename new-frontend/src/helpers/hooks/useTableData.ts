@@ -11,7 +11,7 @@ const useTableData = () => {
     const fetchTables = async () => {
 
       try {
-        const response = await axios.get('/hello');
+        const response = await axios.get('http://localhost:3000/hello');
         setTables(response.data.tables || []);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error'; // Declare the variable here

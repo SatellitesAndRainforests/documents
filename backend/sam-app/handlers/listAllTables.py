@@ -1,26 +1,25 @@
-import boto3
 import json
+from services.documents_service import DocumentsService
 
-# Initialize the DynamoDB client with the local endpoint
-dynamodb = boto3.client(
-    'dynamodb',
-    endpoint_url='http://dynamodb-local:8000'  # Local DynamoDB endpoint
-)
 
 def lambda_handler(event, context):
+
     try:
-        # List all tables
-        response = dynamodb.list_tables()
+
+        service = DocumentsService()
+        response = service.read_all_table_names()
+
         return {
             "statusCode": 200,
             "headers": {
                 "Content-Type": "application/json"
             },
-            "body": json.dumps({
-                "tables": response.get("TableNames", [])
-            })
+            "body": json.dumps({ "tables": response })
         }
+    
+
     except Exception as e:
+
         return {
             "statusCode": 500,
             "headers": {
