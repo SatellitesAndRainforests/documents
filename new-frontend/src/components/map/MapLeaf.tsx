@@ -2,10 +2,12 @@ import React from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import EquatorOverlay from './EquatorOverlay';
 
 const MapLeaf: React.FC = () => {
 
   const position: [number, number] = [53.0, -1.5]; // Approximate center of the UK
+  const zoom = 2
 
   const GradientPolygonOverlay = () => {
 
@@ -67,12 +69,13 @@ const MapLeaf: React.FC = () => {
 
   return (
     <div style={{ height: '500px', width: '100%' }}>
-      <MapContainer center={position} zoom={6} style={{ height: '100%', width: '100%' }}>
+      <MapContainer center={position} zoom={zoom} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <GradientPolygonOverlay />
+        <EquatorOverlay />
       </MapContainer>
     </div>
   );
