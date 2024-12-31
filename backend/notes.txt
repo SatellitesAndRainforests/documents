@@ -18,17 +18,15 @@ aws dynamodb create-table \
     --endpoint-url http://localhost:8000
 
 aws dynamodb put-item \
-    --table-name SampleTable \
-    --item '{"Id": {"S": "1"}, "Name": {"S": "John Doe"}}' \
-    --endpoint-url http://localhost:8000
-
-aws dynamodb list-tables --endpoint-url http://localhost:8000
-
-----------------------------------------------------------------------------
-
-aws dynamodb put-item \
     --table-name Documents \
     --item '{"Id": {"S": "1"}, "Filename": {"S": "cw1.pdf"}, "Url": {"S": "./test.pdf"}}' \
     --endpoint-url http://localhost:8000
 
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+aws dynamodb scan \
+    --table-name Documents \
+    --endpoint-url http://localhost:8000
+
+----------------------------------------------------------------------------
 

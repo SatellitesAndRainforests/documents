@@ -10,4 +10,7 @@ class DocumentsService(BaseDocumentsService):
     def read_all_table_names(self):
         return self.repository.read_all_table_names()
     
+    def retrieve_all_documents(self):
+        return self.repository.retrieve_all_documents()
+ 
 

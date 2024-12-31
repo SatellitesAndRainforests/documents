@@ -7,7 +7,7 @@ def lambda_handler(event, context):
     try:
 
         service = DocumentsService()
-        response = service.read_all_table_names()
+        response = service.retrieve_all_documents()
 
         return {
             "statusCode": 200,
@@ -17,7 +17,7 @@ def lambda_handler(event, context):
                 "Access-Control-Allow-Methods": "GET, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type",
             },
-            "body": json.dumps({"tables": response}),
+            "body": json.dumps({"documents": response}),
         }
     except Exception as e:
         print(f"Error: {e}")

@@ -30,6 +30,25 @@ Resources:
               AllowHeaders: "'Content-Type'"
               AllowOrigins: "'*'"
 
+  ListDocumentsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: handlers.listAllDocuments.lambda_handler
+      Runtime: python3.11
+      Architectures:
+        - x86_64
+      Events:
+        HelloApi:
+          Type: Api
+          Properties:
+            Path: /documents 
+            Method: GET   
+            Cors:
+              AllowMethods: "'GET'"
+              AllowHeaders: "'Content-Type'"
+              AllowOrigins: "'*'"
+
 Outputs:
   HelloWorldApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
