@@ -15,7 +15,8 @@ aws dynamodb create-table \
     --attribute-definitions AttributeName=Id,AttributeType=S \
     --key-schema AttributeName=Id,KeyType=HASH \
     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
-    --endpoint-url http://localhost:8000
+    --endpoint-url http://localhost:8000 \
+    --region eu-west-2
 
 aws dynamodb put-item \
     --table-name Documents \
