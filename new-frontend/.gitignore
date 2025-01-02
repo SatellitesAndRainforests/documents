@@ -1,3 +1,7 @@
+
+# include everything in pdfjs/
+!pdfjs/
+
 # Node.js dependencies
 node_modules/
 
