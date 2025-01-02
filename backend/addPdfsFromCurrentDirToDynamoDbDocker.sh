@@ -5,6 +5,14 @@ DOCUMENTS_DIR="documents"
 DYNAMODB_ENDPOINT="http://localhost:8000"
 TABLE_NAME="Documents"
 
+aws dynamodb create-table \
+    --table-name Documents \
+    --attribute-definitions AttributeName=Id,AttributeType=S \
+    --key-schema AttributeName=Id,KeyType=HASH \
+    --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
+    --endpoint-url http://localhost:8000 ;
+
+
 for file in "$DIR"/*; do
     if [ -f "$file" ]; then
 
