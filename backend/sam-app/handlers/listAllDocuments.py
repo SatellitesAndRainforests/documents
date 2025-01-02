@@ -1,7 +1,10 @@
 import json
 from services.documents_service import DocumentsService
 
+from utils.decorators.ensure_env_var import ensure_environment_variables
 
+
+@ensure_environment_variables( names=["DOCUMENTS_TABLE"])
 def lambda_handler(event, context):
 
     try:

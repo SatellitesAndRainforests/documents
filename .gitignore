@@ -10,6 +10,7 @@ Thumbs.db
 *.zip
 
 # Python (SAM Backend)
+__pycache__/
 backend/sam-app/venv/
 backend/sam-app/__pycache__/
 backend/sam-app/*.pyc

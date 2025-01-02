@@ -1,4 +1,4 @@
-
+import os
 import boto3
 from repositories.base.db import BaseDb
 
@@ -10,6 +10,9 @@ class DynamoDb(BaseDb):
             'dynamodb',
             endpoint_url='http://dynamodb-local:8000' 
         )
+        self.table_name = os.getenv("DOCUMENTS_TABLE")
+        if not self.table_name:
+            raise ValueError("DOCUMENTS_TABLE environment variable is not set.")
 
 
     def read_all_table_names(self):
@@ -20,7 +23,7 @@ class DynamoDb(BaseDb):
 
     def retrieve_all_documents(self):
 
-        table = self.client.Table('Documents')
+        table = self.client.Table(self.table_name)
         response = table.scan()
 
         return response.get("Items", [])
