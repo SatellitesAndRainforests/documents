@@ -1,0 +1,51 @@
+admin@x1:/home/mark/Desktop/nhs/national-document-repository$ sudo python3 pdfjsScript.py 
+[sudo] password for admin: 
+
+cloning prf.js tag version: v4.10.38
+
+
+using local clone
+
+
+building pdf.js
+
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: undefined,
+npm warn EBADENGINE   required: { node: '>=20' },
+npm warn EBADENGINE   current: { node: 'v18.20.5', npm: '10.9.1' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'minimatch@10.0.1',
+npm warn EBADENGINE   required: { node: '20 || >=22' },
+npm warn EBADENGINE   current: { node: 'v18.20.5', npm: '10.9.1' }
+npm warn EBADENGINE }
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+
+added 1075 packages, and audited 1076 packages in 48m
+
+227 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm notice
+npm notice New major version of npm available! 10.9.1 -> 11.0.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.0.0
+npm notice To update run: npm install -g npm@11.0.0
+npm notice
+npm error Missing script: "build"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-01-09T15_42_46_543Z-debug-0.log
+
+finally
+
+Traceback (most recent call last):
+  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 53, in <module>
+    
+  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 31, in build_pdfjs_in_temp_dir
+    subprocess.run( [ "npm", "run", "build", "generic" ], cwd=TEMP_DIR, check=True )
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['npm', 'run', 'build', 'generic']' returned non-zero exit status 1.
+
