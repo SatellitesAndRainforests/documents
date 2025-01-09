@@ -1,51 +1,27 @@
-admin@x1:/home/mark/Desktop/nhs/national-document-repository$ sudo python3 pdfjsScript.py 
-[sudo] password for admin: 
-
-cloning prf.js tag version: v4.10.38
-
-
-using local clone
-
-
-building pdf.js
-
-npm warn EBADENGINE Unsupported engine {
-npm warn EBADENGINE   package: undefined,
-npm warn EBADENGINE   required: { node: '>=20' },
-npm warn EBADENGINE   current: { node: 'v18.20.5', npm: '10.9.1' }
-npm warn EBADENGINE }
-npm warn EBADENGINE Unsupported engine {
-npm warn EBADENGINE   package: 'minimatch@10.0.1',
-npm warn EBADENGINE   required: { node: '20 || >=22' },
-npm warn EBADENGINE   current: { node: 'v18.20.5', npm: '10.9.1' }
-npm warn EBADENGINE }
-npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
-
-added 1075 packages, and audited 1076 packages in 48m
-
-227 packages are looking for funding
-  run `npm fund` for details
-
-found 0 vulnerabilities
-npm notice
-npm notice New major version of npm available! 10.9.1 -> 11.0.0
-npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.0.0
-npm notice To update run: npm install -g npm@11.0.0
-npm notice
-npm error Missing script: "build"
-npm error
-npm error To see a list of scripts, run:
-npm error   npm run
-npm error A complete log of this run can be found in: /root/.npm/_logs/2025-01-09T15_42_46_543Z-debug-0.log
-
-finally
-
-Traceback (most recent call last):
-  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 53, in <module>
-    
-  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 31, in build_pdfjs_in_temp_dir
-    subprocess.run( [ "npm", "run", "build", "generic" ], cwd=TEMP_DIR, check=True )
-  File "/usr/lib/python3.12/subprocess.py", line 571, in run
-    raise CalledProcessError(retcode, process.args,
-subprocess.CalledProcessError: Command '['npm', 'run', 'build', 'generic']' returned non-zero exit status 1.
+admin@x1:/home/mark/Desktop/nhs/national-document-repository/temp_pdfjs$ ls web/
+alt_text_manager.js                         firefoxcom.js               pdf_layer_viewer.js                 text_highlighter.js
+annotation_editor_layer_builder.css         firefox_print_service.js    pdf_link_service.js                 text_layer_builder.css
+annotation_editor_layer_builder.js          genericcom.js               pdf_outline_viewer.js               text_layer_builder.js
+annotation_editor_params.js                 genericl10n.js              pdf_page_view.js                    toggle_button.css
+annotation_layer_builder.css                generic_scripting.js        pdf_presentation_mode.js            toolbar-geckoview.js
+annotation_layer_builder.js                 grab_to_pan.js              pdf_print_service.js                toolbar.js
+app.js                                      images                      pdf_rendering_queue.js              ui_utils.js
+app_options.js                              interfaces.js               pdf_scripting_manager.component.js  viewer.css
+base_tree_viewer.js                         l10n.js                     pdf_scripting_manager.js            viewer-geckoview.css
+caret_browsing.js                           locale                      pdf_sidebar.js                      viewer-geckoview.html
+chromecom.js                                message_bar.css             pdf_single_page_viewer.js           viewer-geckoview.js
+chrome-i18n-allow-access-to-file-urls.json  new_alt_text_manager.js     pdf_thumbnail_viewer.js             viewer.html
+compressed.tracemonkey-pldi-09.pdf          overlay_manager.js          pdf_thumbnail_view.js               viewer.js
+debugger.css                                password_prompt.js          pdf_viewer.component.js             viewer-snippet-chrome-extension.html
+debugger.mjs                                pdf_attachment_viewer.js    pdf_viewer.css                      viewer-snippet-chrome-overlays.html
+dialog.css                                  pdf_cursor_tools.js         pdf_viewer.js                       viewer-snippet-firefox-extension.html
+download_manager.js                         pdf_document_properties.js  preferences.js                      viewer-snippet.html
+draw_layer_builder.css                      pdf_find_bar.js             print_utils.js                      view_history.js
+draw_layer_builder.js                       pdf_find_controller.js      secondary_toolbar.js                xfa_layer_builder.css
+editor_undo_bar.js                          pdf_find_utils.js           struct_tree_layer_builder.js        xfa_layer_builder.js
+event_utils.js                              pdf_history.js              stubs-geckoview.js
+external_services.js                        pdfjs.js                    text_accessibility.js
+admin@x1:/home/mark/Desktop/nhs/national-document-repository/temp_pdfjs$ ls build/
+default_preferences  generic  tmp  version.json
+admin@x1:/home/mark/Desktop/nhs/national-document-repository/temp_pdfjs$ 
 
