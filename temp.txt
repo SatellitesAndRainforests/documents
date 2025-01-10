@@ -1,3 +1,13 @@
+PDF 21bcf9812b8e7f6f690d5970218c4f3b [1.7 PDFium / PDFium] (PDF.js: 4.10.0 [?]) app.js:1575
+
+i get this output in the console ?
+
+and 
+
+it looks like build/generic/ contains both build/ licence and web/ so we just need these? 
+
+not the build/default_preferences ?
+
 build/
 ├── default_preferences
 │   └── generic
@@ -502,3 +512,15 @@ build/
 └── version.json
 
 122 directories, 380 files
+
+
+but maybe we can use the 
+
+build/
+├── default_preferences
+│   └── generic
+│       ├── app_options.mjs
+│       └── default_preferences.json
+
+
+app_optsions and default_preferences to make setting changes ?
