@@ -1,3 +1,26 @@
+webpack 5.97.1 compiled successfully
+[11:23:57] Finished 'createGeneric' after 9.09 s
+[11:23:57] Finished 'generic' after 11 s
+
+copying to ./app/public/pdfjs
+
+
+finally
+
+Traceback (most recent call last):
+  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 67, in <module>
+    copy_build_to_app_public()
+  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 46, in copy_build_to_app_public
+    os.makedirs( PUBLIC_DIR, exists_ok=True )
+TypeError: makedirs() got an unexpected keyword argument 'exists_ok'
+
+
+
+
+for 
+
+
+mark@x1:~/Desktop/nhs/national-document-repository$ cat pdfjsScript.py 
 import os 
 import subprocess 
 import shutil
@@ -34,20 +57,17 @@ def build_pdfjs_in_temp_dir():
     print_message( "building pdf.js" )
 
     subprocess.run( [ "npm", "install" ], cwd=TEMP_DIR, check=True )
-    subprocess.run( [ "npm", "run", "build", "generic" ], cwd=TEMP_DIR, check=True )
+    subprocess.run( [ "npx", "gulp", "generic" ], cwd=TEMP_DIR, check=True )
 
 
 def copy_build_to_app_public(): 
 
-    print_message( "copying to app public/" )
+    print_message(f"copying to {PUBLIC_DIR}" )
 
     build_dir = os.path.join( TEMP_DIR, "build")
-    web_dir = os.path.join( TEMP_DIR, "web")
 
     os.makedirs( PUBLIC_DIR, exists_ok=True )
     shutil.copytree( build_dir, os.path.join( PUBLIC_DIR, "build" ), dirs_exist_ok=True )
-    shutil.copytree( web_dir, os.path.join( PUBLIC_DIR, "web" ), dirs_exist_ok=True )
-    shutil.copy( os.path.join( TEMP_DIR, "LICENSE" ), PUBLIC_DIR )
 
 
 def clean_up():
@@ -76,20 +96,7 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# we have to add the build/ to the gitignore to add
 
 
 
