@@ -1,103 +1,1907 @@
-webpack 5.97.1 compiled successfully
-[11:23:57] Finished 'createGeneric' after 9.09 s
-[11:23:57] Finished 'generic' after 11 s
+import { render, screen } from '@testing-library/react';
+import PdfViewer from './PdfViewer';
 
-copying to ./app/public/pdfjs
+describe('PdfViewer', () => {
+    it('renders an embed element', () => {
+        render(<PdfViewer fileUrl="https://test" />);
 
-
-finally
-
-Traceback (most recent call last):
-  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 67, in <module>
-    copy_build_to_app_public()
-  File "/home/mark/Desktop/nhs/national-document-repository/pdfjsScript.py", line 46, in copy_build_to_app_public
-    os.makedirs( PUBLIC_DIR, exists_ok=True )
-TypeError: makedirs() got an unexpected keyword argument 'exists_ok'
+        const embedElement = screen.getByTitle('Embedded PDF') as HTMLEmbedElement;
+        expect(embedElement).toBeInTheDocument();
+        expect(embedElement.src).toMatch(/#toolbar$/);
+    });
+});
 
 
+the above is the exsisting pdfviewer test that we need to update 
+
+and this is the failinf test log
+
+admin@x1:/home/mark/Desktop/nhs/national-document-repository$ sudo make test-ui
+[sudo] password for admin: 
+npm --prefix ./app run test-all
+
+> app@0.1.0 test-all
+> ./node_modules/.bin/react-scripts test --watchAll=false
+
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeSelectSearchResults/LloydGeorgeSelectSearchResults.test.tsx (5.417 s)
+ PASS  src/pages/patientSearchPage/PatientSearchPage.test.tsx (5.82 s)
+ PASS  src/helpers/utils/uploadDocumentValidation.test.ts
+ PASS  src/pages/uploadDocumentsPage/UploadDocumentsPage.test.tsx (6.043 s)
+ PASS  src/components/blocks/_delete/deleteSubmitStage/DeleteSubmitStage.test.tsx (6.776 s)
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeRecordError/LloydGeorgeRecordError.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeUploadingStage/LloydGeorgeUploadingStage.test.tsx
+ PASS  src/pages/documentSearchResultsPage/DocumentSearchResultsPage.test.tsx
+ PASS  src/pages/lloydGeorgeUploadPage/LloydGeorgeUploadPage.test.tsx (8.308 s)
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeFileInputStage/LloydGeorgeFileInputStage.test.tsx (8.38 s)
+ PASS  src/pages/patientResultPage/PatientResultPage.test.tsx
+ PASS  src/components/blocks/_delete/deleteResultStage/DeleteResultStage.test.tsx
+ PASS  src/components/blocks/_arf/documentSearchResultsOptions/DocumentSearchResultsOptions.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeDownloadStage/LloydGeorgeDownloadStage.test.tsx
+ PASS  src/components/blocks/_arf/uploadSummary/UploadSummary.test.tsx
+ PASS  src/pages/feedbackPage/FeedbackPage.test.tsx
+ PASS  src/components/generic/recordCard/RecordCard.test.tsx
+ PASS  src/components/generic/recordMenuCard/RecordMenuCard.test.tsx
+ PASS  src/components/blocks/_arf/selectStage/SelectStage.test.tsx
+ PASS  src/pages/privacyPage/PrivacyPage.test.tsx
+ PASS  src/helpers/requests/getPresignedUrlForZip.test.ts
+ PASS  src/components/blocks/_delete/removeRecordStage/RemoveRecordStage.test.tsx
+ PASS  src/helpers/requests/uploadDocument.test.ts
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeDownloadComplete/LloydGeorgeDownloadComplete.test.tsx
+ PASS  src/pages/authCallbackPage/AuthCallbackPage.test.tsx
+ PASS  src/pages/serverErrorPage/ServerErrorPage.test.tsx
+ PASS  src/components/blocks/_arf/uploadingStage/UploadingStage.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeSelectDownloadStage/LloydGeorgeSelectDownloadStage.test.tsx
+ PASS  src/pages/homePage/HomePage.test.tsx
+ PASS  src/components/layout/navLinks/NavLinks.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeUploadCompleteStage/LloydGeorgeUploadCompleteStage.test.tsx
+ PASS  src/types/blocks/lloydGeorgeActions.test.ts
+ PASS  src/helpers/utils/validationHelpers.test.ts
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeUploadInfectedStage/LloydGeorgeUploadInfectedStage.test.tsx
+ PASS  src/helpers/requests/getDocumentSearchResults.test.ts
+ FAIL  src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.test.tsx
+  ● Console
+
+    console.error
+      Warning: An update to LloydGeorgeRecordPage inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at LloydGeorgeRecordPage (/home/mark/Desktop/nhs/national-document-repository/app/src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:27:55)
+          at Router (/home/mark/Desktop/nhs/national-document-repository/app/node_modules/react-router/lib/components.tsx:383:13)
+
+      90 |                     setDownloadStage(DOWNLOAD_STAGE.UPLOADING);
+      91 |                 } else {
+    > 92 |                     setDownloadStage(DOWNLOAD_STAGE.FAILED);
+         |                     ^
+      93 |                 }
+      94 |             }
+      95 |         };
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27589:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25508:5)
+      at setDownloadStage (node_modules/react-dom/cjs/react-dom.development.js:17527:7)
+      at onError (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:92:21)
+      at refreshRecord (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:108:13)
+      at onPageLoad (src/components/generic/recordCard/RecordCard.tsx:33:13)
+
+    console.error
+      Warning: An update to LloydGeorgeRecordPage inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at LloydGeorgeRecordPage (/home/mark/Desktop/nhs/national-document-repository/app/src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:27:55)
+          at Router (/home/mark/Desktop/nhs/national-document-repository/app/node_modules/react-router/lib/components.tsx:383:13)
+
+      90 |                     setDownloadStage(DOWNLOAD_STAGE.UPLOADING);
+      91 |                 } else {
+    > 92 |                     setDownloadStage(DOWNLOAD_STAGE.FAILED);
+         |                     ^
+      93 |                 }
+      94 |             }
+      95 |         };
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27589:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25508:5)
+      at setDownloadStage (node_modules/react-dom/cjs/react-dom.development.js:17527:7)
+      at onError (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:92:21)
+      at refreshRecord (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:108:13)
+      at onPageLoad (src/components/generic/recordCard/RecordCard.tsx:33:13)
+
+    console.error
+      Warning: An update to LloydGeorgeRecordPage inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at LloydGeorgeRecordPage (/home/mark/Desktop/nhs/national-document-repository/app/src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:27:55)
+          at Router (/home/mark/Desktop/nhs/national-document-repository/app/node_modules/react-router/lib/components.tsx:383:13)
+
+      90 |                     setDownloadStage(DOWNLOAD_STAGE.UPLOADING);
+      91 |                 } else {
+    > 92 |                     setDownloadStage(DOWNLOAD_STAGE.FAILED);
+         |                     ^
+      93 |                 }
+      94 |             }
+      95 |         };
+
+      at printWarning (node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom.development.js:27589:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom.development.js:25508:5)
+      at setDownloadStage (node_modules/react-dom/cjs/react-dom.development.js:17527:7)
+      at onError (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:92:21)
+      at refreshRecord (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.tsx:108:13)
+      at onPageLoad (src/components/generic/recordCard/RecordCard.tsx:33:13)
+
+  ● LloydGeorgeRecordPage › renders initial lg record view with file info when LG record is returned by search
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--upload"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        03 October 2023 at 10:11:54
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=https%3A%2F%2Ftest-url"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      179 |         renderPage(history);
+      180 |
+    > 181 |         await waitFor(() => {
+          |                      ^
+      182 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      183 |         });
+      184 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.test.tsx:181:22)
+
+  ● LloydGeorgeRecordPage › Accessibility › pass accessibility checks at page entry point
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--upload"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        03 October 2023 at 10:11:54
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=https%3A%2F%2Ftest-url"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      196 |             renderPage(history);
+      197 |
+    > 198 |             await waitFor(() => {
+          |                          ^
+      199 |                 expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      200 |             });
+      201 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.test.tsx:198:26)
+
+ PASS  src/components/blocks/_arf/completeStage/CompleteStage.test.tsx
+ PASS  src/pages/unauthorisedLoginPage/UnauthorisedLoginPage.test.tsx
+ PASS  src/components/layout/Layout.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeUploadFailedStage/LloydGeorgeUploadFailedStage.test.tsx
+ PASS  src/pages/startPage/StartPage.test.tsx
+ PASS  src/components/blocks/_arf/documentSearchResults/DocumentSearchResults.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeRetryUploadStage/LloydGeorgeRetryUploadStage.test.tsx
+ PASS  src/helpers/requests/getAuthToken.test.ts
+ PASS  src/providers/sessionProvider/SessionProvider.test.tsx
+ PASS  src/helpers/requests/deleteAllDocuments.test.ts
+ PASS  src/components/layout/header/Header.test.tsx
+ PASS  src/pages/logoutPage/LogoutPage.test.tsx
+ PASS  src/providers/configProvider/ConfigProvider.test.tsx
+ PASS  src/components/layout/phaseBanner/PhaseBanner.test.tsx
+ PASS  src/router/guards/authGuard/AuthGuard.test.tsx
+ FAIL  src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx (13.745 s)
+  ● LloydGeorgeViewRecordStage › renders an lg record
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      56 |         renderComponent();
+      57 |
+    > 58 |         await waitFor(() => {
+         |                      ^
+      59 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      60 |         });
+      61 |         expect(screen.getByText('View in full screen')).toBeInTheDocument();
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:58:22)
+
+  ● LloydGeorgeViewRecordStage › renders 'full screen' mode correctly
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      102 |         renderComponent();
+      103 |
+    > 104 |         await waitFor(() => {
+          |                      ^
+      105 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      106 |         });
+      107 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:104:22)
+
+  ● LloydGeorgeViewRecordStage › returns to previous view when 'Go back' link clicked during full screen
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      120 |     it("returns to previous view when 'Go back' link clicked during full screen", async () => {
+      121 |         renderComponent();
+    > 122 |         await waitFor(() => {
+          |                      ^
+      123 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      124 |         });
+      125 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:122:22)
+
+  ● LloydGeorgeViewRecordStage › Accessibility (in BSOL) › pass accessibility checks when displaying LG record
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      398 |             renderComponent();
+      399 |
+    > 400 |             expect(await screen.findByTitle('Embedded PDF')).toBeInTheDocument();
+          |                                 ^
+      401 |
+      402 |             const results = await runAxeTest(document.body);
+      403 |             expect(results).toHaveNoViolations();
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at findByTitle (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:400:33)
+
+ PASS  src/pages/sessionExpiredErrorPage/SessionExpiredErrorPage.test.tsx
+ PASS  src/components/generic/backButton/BackButton.test.tsx
+ PASS  src/router/guards/roleGuard/RoleGuard.test.tsx
+ PASS  src/pages/unauthorisedPage/UnauthorisedPage.test.tsx
+ PASS  src/providers/patientProvider/PatientProvider.test.tsx
+ PASS  src/components/layout/serviceErrorBox/ServiceErrorBox.test.tsx
+ PASS  src/router/guards/patientGuard/PatientGuard.test.tsx
+ PASS  src/components/generic/patientSimpleSummary/PatientSimpleSummary.test.tsx
+ PASS  src/components/generic/documentsListView/DocumentsListView.test.tsx
+ PASS  src/components/generic/patientSummary/PatientSummary.test.tsx
+ PASS  src/helpers/hooks/useConfig.test.tsx
+ PASS  src/components/generic/reducedPatientInfo/ReducedPatientInfo.test.tsx
+ PASS  src/helpers/utils/manageFocus.test.tsx
+ PASS  src/helpers/utils/errorToParams.test.ts
+ PASS  src/helpers/hooks/useRole.test.tsx
+ PASS  src/helpers/hooks/usePatient.test.tsx
+ PASS  src/helpers/hooks/useIsBSOL.test.tsx
+ PASS  src/components/layout/footer/Footer.test.tsx
+ PASS  src/components/blocks/_lloydGeorge/lloydGeorgeRecordDetails/LloydGeorgeRecordDetails.test.tsx
+ PASS  src/pages/feedbackConfirmationPage/FeedbackConfirmationPage.test.tsx
+ PASS  src/components/generic/spinnerButton/SpinnerButton.test.tsx
+ PASS  src/pages/authErrorPage/AuthErrorPage.test.tsx
+ PASS  src/pages/notFoundPage/NotFoundPage.test.tsx
+ PASS  src/components/blocks/_arf/uploadConfirmationFailed/uploadConfirmationFailed.test.tsx
+ PASS  src/components/generic/spinner/Spinner.test.tsx
+ PASS  src/components/blocks/_arf/uploadFailedStage/uploadFailedStage.test.tsx
+ PASS  src/components/layout/errorBox/ErrorBox.test.tsx
+ PASS  src/components/generic/serviceDeskLink/ServiceDeskLink.test.tsx
+ PASS  src/helpers/utils/urlManipulations.test.ts
+ PASS  src/helpers/hooks/useTitle.test.tsx
+ PASS  src/components/generic/warningText/WarningText.test.tsx
+ PASS  src/components/generic/progressBar/ProgressBar.test.tsx
+ FAIL  src/components/generic/pdfViewer/PdfViewer.test.tsx
+  ● PdfViewer › renders an embed element
+
+    TestingLibraryElementError: Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <iframe
+          data-testid="pdf-viewer"
+          id="pdf-viewer"
+          src="/pdfjs/build/generic/web/viewer.html?file=https%3A%2F%2Ftest"
+          tabindex="0"
+          title="Embedded PDF Viewer"
+        />
+      </div>
+    </body>
+
+       6 |         render(<PdfViewer fileUrl="https://test" />);
+       7 |
+    >  8 |         const embedElement = screen.getByTitle('Embedded PDF') as HTMLEmbedElement;
+         |                                     ^
+       9 |         expect(embedElement).toBeInTheDocument();
+      10 |         expect(embedElement.src).toMatch(/#toolbar$/);
+      11 |     });
+
+      at Object.getElementError (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByTitle (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/components/generic/pdfViewer/PdfViewer.test.tsx:8:37)
+
+ PASS  src/components/generic/linkButton/LinkButton.test.tsx
+ PASS  src/helpers/utils/waitForSeconds.test.ts
+
+Summary of all failing tests
+ FAIL  src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.test.tsx
+  ● LloydGeorgeRecordPage › renders initial lg record view with file info when LG record is returned by search
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--upload"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        03 October 2023 at 10:11:54
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=https%3A%2F%2Ftest-url"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      179 |         renderPage(history);
+      180 |
+    > 181 |         await waitFor(() => {
+          |                      ^
+      182 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      183 |         });
+      184 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.test.tsx:181:22)
+
+  ● LloydGeorgeRecordPage › Accessibility › pass accessibility checks at page entry point
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--upload"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        03 October 2023 at 10:11:54
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=https%3A%2F%2Ftest-url"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      196 |             renderPage(history);
+      197 |
+    > 198 |             await waitFor(() => {
+          |                          ^
+      199 |                 expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      200 |             });
+      201 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/pages/lloydGeorgeRecordPage/LloydGeorgeRecordPage.test.tsx:198:26)
+
+ FAIL  src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx (13.745 s)
+  ● LloydGeorgeViewRecordStage › renders an lg record
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      56 |         renderComponent();
+      57 |
+    > 58 |         await waitFor(() => {
+         |                      ^
+      59 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      60 |         });
+      61 |         expect(screen.getByText('View in full screen')).toBeInTheDocument();
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:58:22)
+
+  ● LloydGeorgeViewRecordStage › renders 'full screen' mode correctly
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      102 |         renderComponent();
+      103 |
+    > 104 |         await waitFor(() => {
+          |                      ^
+      105 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      106 |         });
+      107 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:104:22)
+
+  ● LloydGeorgeViewRecordStage › returns to previous view when 'Go back' link clicked during full screen
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      120 |     it("returns to previous view when 'Go back' link clicked during full screen", async () => {
+      121 |         renderComponent();
+    > 122 |         await waitFor(() => {
+          |                      ^
+      123 |             expect(screen.getByTitle('Embedded PDF')).toBeInTheDocument();
+      124 |         });
+      125 |
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:122:22)
+
+  ● LloydGeorgeViewRecordStage › Accessibility (in BSOL) › pass accessibility checks when displaying LG record
+
+    Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="lloydgeorge_record-stage"
+        >
+          <div
+            class="nhsuk-back-link"
+          >
+            <a
+              class="nhsuk-back-link__link"
+              href="#"
+            >
+              <svg
+                aria-hidden="true"
+                class="nhsuk-icon nhsuk-icon__chevron-left"
+                height="32"
+                viewBox="0 0 24 24"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z"
+                />
+              </svg>
+              Go back to Patient details
+            </a>
+          </div>
+          <h1>
+            Available records
+          </h1>
+          <div
+            class="lloydgeorge_record-stage_patient-info "
+            id="patient-info"
+          >
+            <p
+              data-testid="patient-name"
+            >
+              John Doe
+            </p>
+            <p
+              data-testid="patient-nhs-number"
+            >
+              NHS number: 
+              900 000 0009
+            </p>
+            <p
+              data-testid="patient-dob"
+            >
+              Date of birth: 
+              01 January 1970
+            </p>
+          </div>
+          <p />
+          <div
+            class="lloydgeorge_record-stage_flex"
+          >
+            <div
+              class="lloydgeorge_record-stage_flex-row lloydgeorge_record-stage_flex-row--menu"
+            >
+              <div
+                class="nhsuk-card lloydgeorge_record-stage_pdf"
+              >
+                <div
+                  class="nhsuk-card__content lloydgeorge_record-stage_pdf-content"
+                  data-testid="pdf-card"
+                >
+                  <h2
+                    class="nhsuk-card__heading lloydgeorge_record-stage_pdf-content-label"
+                  >
+                    Lloyd George record
+                  </h2>
+                  <div
+                    class="lloydgeorge_record-details"
+                  >
+                    <div
+                      class="lloydgeorge_record-details_details"
+                    >
+                      <div
+                        class="lloydgeorge_record-details_details--last-updated"
+                      >
+                        Last updated: 
+                        2023-10-03T09:11:54.618694Z
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    class="lloydgeorge_record-stage_pdf-content-button link-button clickable"
+                    data-testid="full-screen-btn"
+                  >
+                    View in full screen
+                  </button>
+                  <p>
+                    To search within this record use 
+                    <strong>
+                      Control
+                    </strong>
+                     and
+                     
+                    <strong>
+                      F
+                    </strong>
+                  </p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="pdf-viewer"
+                    id="pdf-viewer"
+                    src="/pdfjs/build/generic/web/viewer.html?file=http%3A%2F%2Ftest.com"
+                    tabindex="0"
+                    title="Embedded PDF Viewer"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      398 |             renderComponent();
+      399 |
+    > 400 |             expect(await screen.findByTitle('Embedded PDF')).toBeInTheDocument();
+          |                                 ^
+      401 |
+      402 |             const results = await runAxeTest(document.body);
+      403 |             expect(results).toHaveNoViolations();
+
+      at waitForWrapper (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/wait-for.js:166:27)
+      at findByTitle (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/components/blocks/_lloydGeorge/lloydGeorgeViewRecordStage/LloydGeorgeViewRecordStage.test.tsx:400:33)
+
+ FAIL  src/components/generic/pdfViewer/PdfViewer.test.tsx
+  ● PdfViewer › renders an embed element
+
+    TestingLibraryElementError: Unable to find an element with the title: Embedded PDF.
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <iframe
+          data-testid="pdf-viewer"
+          id="pdf-viewer"
+          src="/pdfjs/build/generic/web/viewer.html?file=https%3A%2F%2Ftest"
+          tabindex="0"
+          title="Embedded PDF Viewer"
+        />
+      </div>
+    </body>
+
+       6 |         render(<PdfViewer fileUrl="https://test" />);
+       7 |
+    >  8 |         const embedElement = screen.getByTitle('Embedded PDF') as HTMLEmbedElement;
+         |                                     ^
+       9 |         expect(embedElement).toBeInTheDocument();
+      10 |         expect(embedElement.src).toMatch(/#toolbar$/);
+      11 |     });
+
+      at Object.getElementError (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByTitle (node_modules/@testing-library/react/node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/components/generic/pdfViewer/PdfViewer.test.tsx:8:37)
 
 
-for 
-
-
-mark@x1:~/Desktop/nhs/national-document-repository$ cat pdfjsScript.py 
-import os 
-import subprocess 
-import shutil
-
-# sudo npm install -g gulp-cli
-# sudo npx gulp clean
-# sudo npx gulp minified
-# sudo npx gulp generic 
-
-PDFJS_REPO = "https://github.com/mozilla/pdf.js"
-PDFJS_VERSION = "v4.10.38"
-PUBLIC_DIR = "./app/public/pdfjs"
-LOCAL_DIR = "local_pdfjs/pdf.js-4.10.38"
-TEMP_DIR = "temp_pdfjs"
-
-
-def clone_pdfjs_to_temp_dir():
-    
-    print_message(f"cloning prf.js tag version: {PDFJS_VERSION}" )
-
-    if os.path.exists(LOCAL_DIR):
-        print_message( "using local clone" )
-        shutil.copytree( LOCAL_DIR, TEMP_DIR, dirs_exist_ok=True )
-    else:
-
-        subprocess.run(
-            [ "git", "clone", "--branch", PDFJS_VERSION, "--depth", "1", PDFJS_REPO, TEMP_DIR ],
-            check=True
-        )
-
-
-def build_pdfjs_in_temp_dir():
-    
-    print_message( "building pdf.js" )
-
-    subprocess.run( [ "npm", "install" ], cwd=TEMP_DIR, check=True )
-    subprocess.run( [ "npx", "gulp", "generic" ], cwd=TEMP_DIR, check=True )
-
-
-def copy_build_to_app_public(): 
-
-    print_message(f"copying to {PUBLIC_DIR}" )
-
-    build_dir = os.path.join( TEMP_DIR, "build")
-
-    os.makedirs( PUBLIC_DIR, exists_ok=True )
-    shutil.copytree( build_dir, os.path.join( PUBLIC_DIR, "build" ), dirs_exist_ok=True )
-
-
-def clean_up():
-    
-    print_message(f"cleaning {TEMP_DIR}/" )
-
-    shutil.rmtree( TEMP_DIR, ignore_errors=True )
-
-
-def print_message(message):
-    print(f"\n{ message }\n" )
-
-
-if __name__ == "__main__":
-    
-    try:
-
-        clone_pdfjs_to_temp_dir()
-        build_pdfjs_in_temp_dir()
-        copy_build_to_app_public()
-
-    finally:
-
-        print_message( "finally" )
-        # clean_up()
-
-
-
-# we have to add the build/ to the gitignore to add
-
+Test Suites: 3 failed, 84 passed, 87 total
+Tests:       7 failed, 552 passed, 559 total
+Snapshots:   0 total
+Time:        18.215 s
+Ran all test suites.
+make: *** [Makefile:127: test-ui] Error 1
+admin@x1:/home/mark/Desktop/nhs/national-document-repository$ 
 
 
 
