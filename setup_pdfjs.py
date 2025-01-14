@@ -126,11 +126,18 @@ if __name__ == "__main__":
         copy_build_to_app_public()
         append_custom_css()
 
+    except Exception as e:
+
+        print_message(f"An error occured: {e}", level="ERROR")
+        sys.exit(1)
+
     finally:
 
         print_message( "finally" )
         delete_temp_dir()
         print_message("PDF.js setup complete", newline_before=True, newline_after=True)
+
+    sys.exit(0)
 
 
 
