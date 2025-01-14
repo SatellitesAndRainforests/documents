@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from 'react';
-
-type Props = { fileUrl: string };
-
-const PdfViewer = ({ fileUrl }: Props) => {
-    const [useIframe, setUseIframe] = useState(true);
-
-    useEffect(() => {
-        if (!useIframe) {
-            // Use the embedded PDF viewer as a fallback
-            const pdfObject = require('pdfobject');
-            pdfObject.embed(fileUrl + '#toolbar', '#pdf-viewer');
-        }
-    }, [useIframe, fileUrl]);
-
-    if (!fileUrl) return null;
-
-    return (
-        <>
-            {useIframe ? (
-                <iframe
-                    id="pdf-viewer"
-                    data-testid="pdf-viewer"
-                    tabIndex={0}
-                    src={`/pdfjs/build/generic/web/viewer.html?file=${encodeURIComponent(fileUrl)}`}
-                    title="Embedded PDF Viewer"
-                    aria-label="PDF Viewer"
-                    style={{ height: 600, width: '100%' }}
-                    onError={() => setUseIframe(false)} // Switch to fallback on error
-                />
-            ) : (
-                <div id="pdf-viewer" data-testid="pdf-viewer" tabIndex={0} style={{ height: 600 }}></div>
-            )}
-        </>
-    );
-};
-
-export default PdfViewer;
+admin@x1:/home/mark/Desktop/nhs/national-document-repository$ cat app/.env
+GENERATE_SOURCEMAP=false # false
+REACT_APP_DOC_STORE_API_ENDPOINT="http://test"
+REACT_APP_AWS_REGION=%AWS_REGION%
+REACT_APP_OIDC_PROVIDER_ID=%OIDC_PROVIDER_ID%
+REACT_APP_ENVIRONMENT=local
+REACT_APP_IMAGE_VERSION="%IMAGE_VERSION%"
+CONTAINER_PORT=xx    # Port number within the container. Needed for building the docker image
+HOST_PORT=xxxx    # Port number that the docker-compose localhost exposes. Only need this if we run docker-compose
+PORT=xxxx   # Port number of the localhost dev server when we run `make start`
+# Cypress Smoke Testing
+CYPRESS_BASE_URL=http://localhost:3000 # Use the port number same as above PORT
+CYPRESS_USERNAME=xxxx # For Cypress CIS2 Login during smoke tests
+CYPRESS_PASSWORD=xxxx # For Cypress CIS2 Login during smoke tests
+CYPRESS_WORKSPACE=local # Helps find the correct patient data relative to the workspace
+AWS_ACCESS_KEY_ID=xxxx # If workspace is a sandbox, data is seeded with these credentials. You can bypass this by assuming AWS role in your terminal
+AWS_SECRET_ACCESS_KEY=xxxx # If workspace is a sandbox, data is seeded with these credentials. You can bypass this by assuming AWS role in your terminal
+AWS_SESSION_TOKEN=xxxx # If workspace is a sandbox, data is seeded with these credentials. You can bypass this by assuming AWS role in your terminal
+AWS_REGION=xxxx # If workspace is a sandbox, data is seeded with these credentials. You can bypass this by assuming AWS role in your terminal
 
