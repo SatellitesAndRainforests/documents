@@ -1,4 +1,5 @@
 import os 
+import sys 
 import subprocess 
 import shutil
 
@@ -83,12 +84,9 @@ def append_custom_css():
     viewer_css_path = os.path.join( PUBLIC_DIR, "build", "generic", "web", "viewer.css" )
 
     if os.path.exists(viewer_css_path) and os.path.exists(CUSTOM_CSS_PATH):
-        try:
-            with open(viewer_css_path, "a") as viewer_css_file, open(CUSTOM_CSS_PATH, "r") as custom_css_file:
-                shutil.copyfileobj(custom_css_file, viewer_css_file)  # appends 
-                print_message("custom css applied successfully")
-        except Exception as e:
-            print_message(f"error appending css: {e}", level="ERROR")
+        with open(viewer_css_path, "a") as viewer_css_file, open(CUSTOM_CSS_PATH, "r") as custom_css_file:
+            shutil.copyfileobj(custom_css_file, viewer_css_file)  # appends 
+            print_message("custom css applied successfully")
     else:
         if not os.path.exists(viewer_css_path):
             print_message(f"viewer.css file not found at: {viewer_css_path}", level="ERROR")
