@@ -8,9 +8,11 @@ import shutil
 PDFJS_VERSION = "v4.10.38"
 
 PDFJS_REPO = "https://github.com/mozilla/pdf.js"
+
 LOCAL_DIR = "./local_pdfjs/pdf.js-4.10.38"
-TEMP_DIR = "temp_pdfjs"
-PUBLIC_DIR = "./app/public/pdfjs"
+TEMP_DIR = "./temp_pdfjs"
+PUBLIC_DIR = "../public/pdfjs"
+CUSTOM_CSS_PATH = "./custom_viewer.css"
 
 
 def clone_pdfjs_to_temp_dir():
@@ -72,6 +74,23 @@ def copy_build_to_app_public():
     shutil.copytree( build_dir, os.path.join( PUBLIC_DIR, "build" ), dirs_exist_ok=True )
 
 
+def append_custom_css():
+
+    print_message("appending custom css to viewer.css")
+    
+    viewer_css_path = os.path.join( PUBLIC_DIR, "build", "generic", "web", "viewer.css" )
+
+    if os.path.exists(viewer_css_path):
+        try:
+            with open(viewer_css_path, "a") as viewer_css_file, open(CUSTOM_CSS_PATH, "r") as custom_css_file:
+                shutil.copyfileobj(custom_css_file, viewer_css_file)  # appends 
+                print_message("custom css applied")
+        except Exception as e:
+            print_message(f"error appending css: {e}", level="ERROR")
+    else:
+        print_message(f"custom css file not found at: {CUSTOM_CSS_PATH}", level="ERROR")
+    
+
 def delete_temp_dir():
     
     print_message(f"cleaning {TEMP_DIR}/" )
@@ -90,6 +109,7 @@ if __name__ == "__main__":
         clone_pdfjs_to_temp_dir()
         build_pdfjs_in_temp_dir()
         copy_build_to_app_public()
+        append_custom_css()
 
     finally:
 
