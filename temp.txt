@@ -1,21 +1,39 @@
-2.2M	./build/generic/build/pdf.worker.mjs
-712K	./build/generic/build/pdf.sandbox.mjs
-644K	./build/generic/build/pdf.mjs
-468K	./build/generic/web/viewer.mjs
-160K	./build/generic/web/standard_fonts/LiberationSans-Italic.ttf
-152K	./build/generic/web/viewer.css
-140K	./build/generic/web/standard_fonts/LiberationSans-Regular.ttf
-136K	./build/generic/web/standard_fonts/LiberationSans-Bold.ttf
-132K	./build/generic/web/standard_fonts/LiberationSans-BoldItalic.ttf
-56K	./build/generic/web/cmaps/UniCNS-UTF8-H.bcmap
-52K	./build/generic/web/cmaps/UniCNS-UTF32-H.bcmap
-52K	./build/generic/web/cmaps/UniCNS-UTF16-H.bcmap
-48K	./build/generic/web/cmaps/UniGB-UTF8-H.bcmap
-48K	./build/generic/web/cmaps/UniGB-UTF32-H.bcmap
-48K	./build/generic/web/cmaps/UniCNS-UCS2-H.bcmap
-44K	./build/generic/web/viewer.html
-44K	./build/generic/web/cmaps/UniJIS-UTF8-H.bcmap
-44K	./build/generic/web/cmaps/UniJIS2004-UTF8-H.bcmap
-44K	./build/generic/web/cmaps/UniGB-UTF16-H.bcmap
-44K	./build/generic/web/cmaps/UniGB-UCS2-H.bcmap
+import React, { useEffect, useState } from 'react';
+
+type Props = { fileUrl: string };
+
+const PdfViewer = ({ fileUrl }: Props) => {
+    const [useIframe, setUseIframe] = useState(true);
+
+    useEffect(() => {
+        if (!useIframe) {
+            // Use the embedded PDF viewer as a fallback
+            const pdfObject = require('pdfobject');
+            pdfObject.embed(fileUrl + '#toolbar', '#pdf-viewer');
+        }
+    }, [useIframe, fileUrl]);
+
+    if (!fileUrl) return null;
+
+    return (
+        <>
+            {useIframe ? (
+                <iframe
+                    id="pdf-viewer"
+                    data-testid="pdf-viewer"
+                    tabIndex={0}
+                    src={`/pdfjs/build/generic/web/viewer.html?file=${encodeURIComponent(fileUrl)}`}
+                    title="Embedded PDF Viewer"
+                    aria-label="PDF Viewer"
+                    style={{ height: 600, width: '100%' }}
+                    onError={() => setUseIframe(false)} // Switch to fallback on error
+                />
+            ) : (
+                <div id="pdf-viewer" data-testid="pdf-viewer" tabIndex={0} style={{ height: 600 }}></div>
+            )}
+        </>
+    );
+};
+
+export default PdfViewer;
 
