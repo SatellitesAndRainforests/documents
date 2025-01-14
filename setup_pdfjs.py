@@ -35,13 +35,37 @@ def build_pdfjs_in_temp_dir():
     subprocess.run( [ "npm", "install" ], cwd=TEMP_DIR, check=True )
     subprocess.run( [ "npx", "gulp", "generic" ], cwd=TEMP_DIR, check=True )
 
+    delete_unnecessary_files()
+
+
+def delete_unnecessary_files():
+
+    print_message( "deleting unnecessary files ")
+
+    files_to_delete = [
+        os.path.join( TEMP_DIR, "build", "generic", "web", "compressed.tracemonkey-pldi-09.pdf" ),
+        os.path.join( TEMP_DIR, "build", "generic", "web", "viewer.mjs.map" ),
+        os.path.join( TEMP_DIR, "build", "generic", "build", "pdf.mjs.map" ),
+        os.path.join( TEMP_DIR, "build", "generic", "build", "pdf.worker.mjs.map" ),
+        os.path.join( TEMP_DIR, "build", "generic", "build", "pdf.sandbox.mjs.map" ),
+    ]
+
+    for file_path in files_to_delete:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print_message(f"file deleted: {file_path}" )
+        else:
+            print_message(f"file to delete not found: {file_path}", level="WARN" )
 
 def copy_build_to_app_public(): 
 
     print_message(f"copying to {PUBLIC_DIR}" )
 
-    if not os.path.exists(PUBLIC_DIR):
-        os.makedirs( PUBLIC_DIR )
+    if os.path.exists(PUBLIC_DIR):
+        print_message(f"deleting exsisting {PUBLIC_DIR} ")
+        shutil.rmtree(PUBLIC_DIR)
+
+    os.makedirs( PUBLIC_DIR )
 
     build_dir = os.path.join( TEMP_DIR, "build")
 
