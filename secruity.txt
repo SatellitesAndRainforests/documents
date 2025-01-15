@@ -1,0 +1,69 @@
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+/auth-callback?code=FHO_xdVc0zR5SfhnS4sWw-t2nXQ&iss=https%3A%2F%2Fam.nhsdev.auth-ptl.cis2.spineservices.nhs.uk%3A443%2Fopenam%2Foauth2%2Frealms%2Froot%2Frealms%2Foidc&state=WGJkZt8xYLc1veER3DGtByPeeXhboO&client_id=277214098809.apps.supplier:1 
+
+Refused to load the image 
+
+'blob:https://ndra.access-request-fulfilment.patient-deductions.nhs.uk/d49baf88-205f-4e23-a64d-5bc7a5e755e0' 
+
+because it violates the following Content Security Policy directive: "img-src 'self'".
+
+--
+--
+
+img-src 'self' blob;
+
+pdf.js converts the original url file to blobs internally to render the pdf document in parts
+this setting allows the app to use blob urls internally, not external , or change exsisting s3 urls to type blob
+it is just in our app and cannot be exploited to load unauthrised content or change other settings
+
+to add:
+
+Content-Security-Policy: img-src 'self' blob:;
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+Refused to frame 
+
+'https://ndra.access-request-fulfilment.patient-deductions.nhs.uk/' 
+
+because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".
+
+--
+--
+
+frame-ancestors 'self' 
+
+allows the app to be the frame-ancestor and have an iframe , but only internally / using resources from the same location
+
+ - the same domain and protocol served from the server - 
+
+the same origin / the same domain, protcol and port where are app is eg. https://ourapp.com:<port>
+
+to add:
+
+Content-Security-Policy: frame-ancestors 'self';
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+sandbox="allow-scripts allow-same-origin allow-popups"
+letsrun pdfjs run its own js , 
+use origin-restricted resources , allows pdfjs to fetch the 3s url, and use its own cookies and ...
+open document links in new tabs, not in the iframe . minimizes attack surfaces.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+increase the presigned url expiration time for large giles to avoid timeouts
+
+cloudfront
+api gateway
+s3 bucket hosting configuration
+
+
