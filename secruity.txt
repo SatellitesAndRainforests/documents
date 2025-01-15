@@ -79,3 +79,84 @@ api gateway
 s3 bucket hosting configuration
 
 
+
+
+
+---------------------------------
+
+Image Loading Error
+Error:
+
+vbnet
+Copy code
+Refused to load the image 'blob:...' because it violates the following Content Security Policy directive: "img-src 'self'".
+Explanation:
+
+Cause: PDF.js converts the original file URL into blob: URLs internally for efficient loading and rendering in parts.
+Solution: Allow the app to internally use blob: URLs.
+This does not alter existing S3 URLs or allow external resources.
+Blob URLs are restricted to internal use and cannot point to external sources.
+CSP Update:
+
+From:
+css
+Copy code
+Content-Security-Policy: img-src 'self';
+To:
+css
+Copy code
+Content-Security-Policy: img-src 'self' blob:;
+Frame-Ancestors Error
+Error:
+
+vbnet
+Copy code
+Refused to frame '...' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".
+Explanation:
+
+Cause: frame-ancestors 'none' prevents the React app or parts of it (like public/pdfjs) from embedding content in an iframe.
+Solution: Allow parts of the React app (public/pdfjs) to be embedded only by other parts of the app at the same location (same origin: domain, protocol, port).
+This ensures the iframe can only be embedded by the React app itself.
+Prevents other websites or apps from embedding parts of your app.
+CSP Update:
+
+From:
+css
+Copy code
+Content-Security-Policy: frame-ancestors 'none';
+To:
+css
+Copy code
+Content-Security-Policy: frame-ancestors 'self';
+Iframe Sandbox
+Setting:
+
+html
+Copy code
+sandbox="allow-scripts allow-same-origin allow-popups"
+Explanation:
+
+Purpose: Restrict iframe functionality to what is necessary for PDF.js:
+allow-scripts: Allow PDF.js to run its JavaScript for rendering.
+allow-same-origin: Permit fetching origin-restricted resources like pre-signed S3 URLs.
+allow-popups: Open links within PDFs in new tabs, not the iframe.
+Effect: Minimizes attack surface by preventing other unsafe actions like form submissions or access to the parent app context.
+Presigned URL Timeout
+Problem:
+
+Large files may fail to load if the presigned URL expires during PDF rendering.
+Solution:
+
+Increase the expiration time for presigned URLs to ensure large files remain accessible throughout rendering.
+Potential Configuration Changes:
+
+CloudFront
+API Gateway
+S3 Bucket Hosting Configuration
+
+
+
+
+
+
+
