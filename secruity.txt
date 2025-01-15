@@ -17,12 +17,18 @@ because it violates the following Content Security Policy directive: "img-src 's
 
 img-src 'self' blob;
 
-pdf.js converts the original url file to blobs internally to render the pdf document in parts
-this setting allows the app to use blob urls internally, not external , or change exsisting s3 urls to type blob
-it is just in our app and cannot be exploited to load unauthrised content or change other settings
+pdf.js converts the original file url into blob urls internally to render the pdf document in parts,
+for efficent loading and rendering.
+
+allows the app to internally use blob urls
+
+this setting does not change the exsisting s3 urls to type blob or allow external resources.
+the use of blob urls is limited to internal use and can only point to internal resources
 
 to add:
-
+from
+Content-Security-Policy: img-src 'self';
+to
 Content-Security-Policy: img-src 'self' blob:;
 
 ----------------------------------------------------------------------------------------------------------------------------
@@ -39,14 +45,20 @@ because an ancestor violates the following Content Security Policy directive: "f
 
 frame-ancestors 'self' 
 
-allows the app to be the frame-ancestor and have an iframe , but only internally / using resources from the same location
+ensures an iframe's ancestor (the page embedding it) is located at the same location 
+(same origin: domain, protocol, port / server)
 
- - the same domain and protocol served from the server - 
+allows parts of the react app ( public/pdfjs ) to be embedded by other parts of our system that are at the same
+location, which is effectifly only the rest of the react app
+(same origin: domain, protocol, port / server)
 
-the same origin / the same domain, protcol and port where are app is eg. https://ourapp.com:<port>
+and cannot be iframed embedded by applications at other location
+for example another website tries to embedd our react app 
 
 to add:
-
+from
+Content-Security-Policy: frame-ancestors 'none';
+to
 Content-Security-Policy: frame-ancestors 'self';
 
 
